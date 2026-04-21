@@ -30,7 +30,7 @@ class: center, middle, inverse, title-slide
 ### Dr. Keefe Murphy – MU
 ]
 .date[
-### Department of Mathematics &amp; Statistics Colloquium, Maynooth University, April 22, 2026
+### Maynooth University Mathematics &amp; Statistics Colloquium, April 22, 2026
 ]
 
 ---
@@ -71,14 +71,14 @@ class: center, middle, inverse, title-slide
   - Ecology &lt;a name=cite-Billheimer2001&gt;&lt;/a&gt;([Billheimer et al., 2001](#bib-Billheimer2001)).
   - Palaeoclimate &lt;a name=cite-Vasko2000&gt;&lt;/a&gt;([Vasko et al., 2000](#bib-Vasko2000)).
   - High-throughput sequencing experiments in biology, including microbiome
-   &lt;a name=cite-Fernandes2014&gt;&lt;/a&gt;([Fernandes et al., 2014](#bib-Fernandes2014)) and single-cell &lt;a name=cite-Buttner2021&gt;&lt;/a&gt;([Büttner et al., 2021](#bib-Buttner2021)) experiments.
+   &lt;a name=cite-Fernandes2014&gt;&lt;/a&gt;([Fernandes et al., 2014](#bib-Fernandes2014)) and single-cell &lt;a name=cite-Buttner2021&gt;&lt;/a&gt;([Büttner et al., 2021](#bib-Buttner2021)) studies.
 
 ---
 ## The underlying probability model
 
-- Experiment: `\(N\)` **independent** trials. Each trial results in one of the `\(d\)` mutually exclusive categories, where `\(N = \sum_{j=1}^d Y_j\)` is known.
+- Experiment: `\(N\)` **independent** trials. Each trial results in one of the `\(d\)` mutually exclusive categories.
 
-- Let `\(E_j := ``\textrm{category } j \textrm{ occurs''}\)` with probability `\(\Pr\lbrack E_j\rbrack = \theta_j \ge 0\)` for `\(j\in\{1, \ldots,d\}\)`. Note that `\(\Pr\left\lbrack \bigcup_{j=1}^d E_j\right\rbrack = \sum_{j=1}^d \Pr\lbrack E_j \rbrack = \sum_{j=1}^d \theta_j = 1\)`.
+- Let `\(E_j := ``\textrm{category } j \textrm{ occurs''}\)` with probability `\(\Pr\lbrack E_j\rbrack = \theta_j\)` for `\(j\in\{1, \ldots,d\}\)`. Note that `\(\Pr\left\lbrack \bigcup_{j=1}^d E_j\right\rbrack = \sum_{j=1}^d \Pr\lbrack E_j \rbrack = \sum_{j=1}^d \theta_j = 1\)`.
 
 - Let `\(Y_j\)` be a *random variable* denoting the **frequency** which category `\(j\)` is observed over the `\(N\)` independent trials. 
 The joint probability `\(\{Y_1 = y_1, \ldots, Y_d = y_d\}\)` is given by:
@@ -192,7 +192,7 @@ with observation-specific totals `\(N_i\)`.
 - Microbiome data: has motivated the development of several models &lt;a name=cite-Chen2013&gt;&lt;/a&gt;&lt;a name=cite-Wadsworth2017&gt;&lt;/a&gt;&lt;a name=cite-Tang2019&gt;&lt;/a&gt;&lt;a name=cite-Koslovsky2023&gt;&lt;/a&gt;([Chen et al., 2013](#bib-Chen2013); [Wadsworth et al., 2017](#bib-Wadsworth2017); [Tang et al., 2019](#bib-Tang2019); [Koslovsky, 2023](#bib-Koslovsky2023)).
 
 ---
-## Pollen data
+## Pollen data: Glimpse
 
 
 ```
@@ -218,20 +218,17 @@ with observation-specific totals `\(N_i\)`.
 ```
 
 ---
-## Pollen data: Location
-
-&lt;img src="index_files/figure-html/map-location-1.svg" alt="" width="100%" style="display: block; margin: auto;" /&gt;
-
----
 ## Pollen data: Species statistics
 
-&lt;img src="index_files/figure-html/plot-stats-1.svg" alt="" width="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/plot-stats-1.svg" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 
 ---
-## Pollen data
+## Pollen data: Empirical composition vs MTCO
 
 &lt;img src="index_files/figure-html/plot-pollen-1.svg" alt="" width="90%" style="display: block; margin: auto;" /&gt;
+
+
 
 ---
 ## Related work
@@ -278,27 +275,22 @@ class: middle, inverse
   - In extreme cases where zeros co-occur in all but one category, the count for the
 remaining category will coincide with the number of trials, `\(N_i\)`.
 
-&lt;!-- --- --&gt;
-&lt;!-- # The zero-and-N-inflated multinomial (ZANIM) distribution --&gt;
-
-&lt;!-- - [Menezes et al. (2025)](#bib-Menezes2025) introduced the ZANIM distribution to account for structural zeros --&gt;
-&lt;!-- across the categories of the multinomial distribution. --&gt;
-
-&lt;!-- - The derivation shares some connections with the multinomial-Poisson transformation of &lt;a name=cite-Baker1994&gt;&lt;/a&gt;[Baker (1994)](#bib-Baker1994) and proceeds by: --&gt;
-&lt;!--   - reparameterising the multinomial distribution,  --&gt;
-&lt;!--   - introducing a latent variable,  --&gt;
-&lt;!--   - replacing the 'Poisson-type' form of the resulting augmented likelihood contributions by a zero-inflated Poisson form &lt;a name=cite-Lambert1992&gt;&lt;/a&gt;([Lambert, 1992](#bib-Lambert1992)),  --&gt;
-&lt;!--   - and then marginalising out the latent variable. --&gt;
-
-&lt;!-- - Ultimately, ZANIM admits both a stochastic representation and a finite mixture representation. --&gt;
-
 ---
 # The zero-and-N-inflated multinomial (ZANIM) distribution
 
-- [Menezes et al. (2025)](#bib-Menezes2025) derived the ZANIM distribution to account for structural zeros
+- [Menezes et al. (2025)](#bib-Menezes2025) introduced the ZANIM distribution to account for structural zeros
 across the categories of the multinomial distribution.
 
---
+- The **derivation** shares some connections with the multinomial-Poisson transformation of &lt;a name=cite-Baker1994&gt;&lt;/a&gt;[Baker (1994)](#bib-Baker1994) and proceeds by:
+  - reparameterising the multinomial distribution,
+  - introducing a latent variable,
+  - replacing the 'Poisson-type' form of the resulting augmented likelihood contributions by a zero-inflated Poisson form &lt;a name=cite-Lambert1992&gt;&lt;/a&gt;([Lambert, 1992](#bib-Lambert1992)),
+  - and then marginalising out the latent variable.
+
+- Ultimately, ZANIM admits both a stochastic representation and a finite mixture representation.
+
+---
+# ZANIM: Sthocastic representation
 
 `$$\begin{align*}
 (z_{ij} \mid \zeta_{j}) &amp; \overset{\operatorname{ind.}}{\sim} \operatorname{Bernoulli}\lbrack 1 - \zeta_j \rbrack, \quad j\in\{1,\ldots, d\},\\
@@ -315,7 +307,7 @@ for each category, such that `\(\zeta_j \in \lbrack 0, 1 \rbrack\)`.
 as the *individual-level* count probabilities, for `\(i\in\{1,\ldots,n\}\)` and `\(j\in\{1,\ldots,d\}\)`.
 
 ---
-# ZANIM: finite mixture representation
+# ZANIM: Finite mixture PMF
 
 `$$\begin{align}\Pr\lbrack
 \mathbf{Y}_i = \mathbf{y}_i; \boldsymbol{\theta}, \boldsymbol{\zeta}\rbrack &amp;= \eta_d\,\binom{N}{y_{i1} \dots y_{id}}\,
@@ -452,7 +444,7 @@ class: middle, inverse
 
 .pull-left[
 
-.font80[
+.font90[
 
 - Bayesian additive regression trees (BART) is a **nonparametric prior** that represents 
 an unknown function `\(f(\mathbf{x}_i)\)` of interest as a sum of decision trees &lt;a name=cite-Chipman2010&gt;&lt;/a&gt;([Chipman et al., 2010](#bib-Chipman2010)):
@@ -475,7 +467,7 @@ tree parameterised by:
 &lt;img src="./figures/trees_from_mmm.png" alt="" width="80%" style="display: block; margin: auto;" /&gt;
 
 
-.font80[
+.font90[
 - The prior is `\(\pi(\mathcal{T}_h, \mathcal{M}_h) = \pi_\mathcal{T}(\mathcal{T}_h)\pi_{\mathcal{M}}(\mathcal{M}_h \mid \mathcal{T}_h)\)`.
   - `\(\pi_\mathcal{T}(\mathcal{T}_h)\)` is a branching process &lt;a name=cite-Chipman1998&gt;&lt;/a&gt;([Chipman et al., 1998](#bib-Chipman1998)).
   - `\(\pi_{\mathcal{M}}(\mathcal{M}_h \mid \mathcal{T}_h)=\prod_{t \in \mathcal{L}_h} \pi_\mu(\mu_{ht})\)`,
@@ -504,7 +496,7 @@ where `\(\pi_\mu\)` is chosen so that it is conditionally conjugate.
 \mathcal{L}_h,$$`
 
 
-- Posterior sampling of `\(\{(\mathcal{T}_h, \mathcal{M}_h)\}_{h=1}^m\)`: similar procedure, but using a *generalised* (modified) Bayesian backfitting.
+- Posterior sampling of `\(\{(\mathcal{T}_h, \mathcal{M}_h)\}_{h=1}^m\)`: similar procedure, but using a *generalised* Bayesian backfitting.
 
 
 ---
@@ -645,9 +637,9 @@ where `\(\boldsymbol{\Gamma} = \left\lbrack \gamma_{hj}\right\rbrack_{h=1,\ldots
 `\(\boldsymbol{\epsilon}_i \sim \operatorname{Normal}_{d-1}\left\lbrack\mathbf{0}_{d-1}, \boldsymbol{\Psi}\right\rbrack\)`, with
 `\(\boldsymbol{\Psi}=\operatorname{diag}\left\{ \psi_1, \ldots, \psi_{d-1}\right\}\)`.
 
-- Multiplicative gamma process shrinkage prior on `\(\boldsymbol{\Gamma}\)` &lt;a name=cite-Bhattacharya2011&gt;&lt;/a&gt;([Bhattacharya et al., 2011](#bib-Bhattacharya2011)).
+&lt;!-- - Multiplicative gamma process shrinkage prior on `\(\boldsymbol{\Gamma}\)` &lt;a name=cite-Bhattacharya2011&gt;&lt;/a&gt;([Bhattacharya et al., 2011](#bib-Bhattacharya2011)). --&gt;
 
-&lt;!-- - We shrink the contributions of the redundant loadings columns using the multiplicative gamma process shrinkage prior ([Bhattacharya et al., 2011](#bib-Bhattacharya2011)). --&gt;
+- We shrink the contributions of the redundant loadings columns using the multiplicative gamma process shrinkage prior ([Bhattacharya et al., 2011](#bib-Bhattacharya2011)).
 ]
 
 ---
@@ -808,7 +800,7 @@ Northern Hemisphere, along with three climate covariates ([Parnell et al., 2015]
 - Training: `\(5{,}832\)` observations.
 - Holdout: `\(2{,}000\)` observations.
 
-- All models included in the comparison are implemented in our `R` package `zanicc`, available at
+- All models are implemented in `C++` in our `R` package `zanicc`, available at
 &lt;a href="http://github.com/AndrMenezes/zanicc"&gt;&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt; AndrMenezes/zanicc&lt;/a&gt;.
 
 ]
@@ -904,7 +896,7 @@ flexible covariate effects.
 
 **Future work**
   - Use our proposed models for the inverse posterior problem [Parnell et al. (2015)](#bib-Parnell2015):
-    - Given new pollen counts `\(\mathbf{Y}_i^\ast\)` what is the climate `\(\mathbf{x}^{\ast}\)` associated with them, i.e., `\(p(\mathbf{x}^{\ast} \mid \mathbf{Y}_i^\ast, \mathbf{Y}, \mathbf{x})\)`?.
+    - Given new pollen counts `\(\mathbf{Y}_i^\ast\)`, what is the climate `\(\mathbf{x}^{\ast}\)` associated with them, i.e., `\(p(\mathbf{x}^{\ast} \mid \mathbf{Y}_i^\ast, \mathbf{Y}, \mathbf{x})\)`?
   
   - Relax the independence across `\(\mathbf{z}_i\)` using the probit seemingly unrelated BART (probit-suBART) prior of &lt;a name=cite-Esser2025&gt;&lt;/a&gt;[Esser et al. (2025)](#bib-Esser2025).
 ]

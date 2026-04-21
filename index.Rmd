@@ -87,14 +87,14 @@ data_pollen_wide <- data_pollen |>
   - Ecology `r Citep(bib, "Billheimer2001")`.
   - Palaeoclimate `r Citep(bib, "Vasko2000")`.
   - High-throughput sequencing experiments in biology, including microbiome
-   `r Citep(bib, "Fernandes2014")` and single-cell `r Citep(bib, "Buttner2021")` experiments.
+   `r Citep(bib, "Fernandes2014")` and single-cell `r Citep(bib, "Buttner2021")` studies.
 
 ---
 ## The underlying probability model
 
-- Experiment: $N$ **independent** trials. Each trial results in one of the $d$ mutually exclusive categories, where $N = \sum_{j=1}^d Y_j$ is known.
+- Experiment: $N$ **independent** trials. Each trial results in one of the $d$ mutually exclusive categories.
 
-- Let $E_j := ``\textrm{category } j \textrm{ occurs''}$ with probability $\Pr\lbrack E_j\rbrack = \theta_j \ge 0$ for $j\in\{1, \ldots,d\}$. Note that $\Pr\left\lbrack \bigcup_{j=1}^d E_j\right\rbrack = \sum_{j=1}^d \Pr\lbrack E_j \rbrack = \sum_{j=1}^d \theta_j = 1$.
+- Let $E_j := ``\textrm{category } j \textrm{ occurs''}$ with probability $\Pr\lbrack E_j\rbrack = \theta_j$ for $j\in\{1, \ldots,d\}$. Note that $\Pr\left\lbrack \bigcup_{j=1}^d E_j\right\rbrack = \sum_{j=1}^d \Pr\lbrack E_j \rbrack = \sum_{j=1}^d \theta_j = 1$.
 
 - Let $Y_j$ be a *random variable* denoting the **frequency** which category $j$ is observed over the $N$ independent trials. 
 The joint probability $\{Y_1 = y_1, \ldots, Y_d = y_d\}$ is given by:
@@ -182,7 +182,7 @@ kableExtra::kbl(x = t(table_descr), escape = FALSE,
 - Microbiome data: has motivated the development of several models `r Citep(bib, c("Chen2013", "Wadsworth2017", "Tang2019", "Koslovsky2023"))`.
 
 ---
-## Pollen data
+## Pollen data: Glimpse
 
 ```{r glimpse}
 data_pollen_wide |>
@@ -190,43 +190,9 @@ data_pollen_wide |>
 ```
 
 ---
-## Pollen data: Location
-
-```{r map-location, out.width="100%", fig.align="center"}
-# Load map data
-world_map <- map_data("world")
-data_pollen_wide$total_zeros <- rowSums(data_pollen_wide[, sp] == 0)
-# data_pollen_wide$mean <- rowMeans(data_pollen_wide[, sp])
-p_map <- ggplot() +
-  geom_polygon(data = world_map[world_map$lat > 20, ],
-               aes(x = long, y = lat, group = group),
-               fill = "grey", alpha = 0.4, col = "black") + 
-  geom_point(data = data_pollen_wide,
-             mapping = aes(x = longitude, y = latitude, col = total_zeros),
-             size = 0.6) +
-  coord_fixed(1.6) +
-  colorspace::scale_color_continuous_sequential(palette = "BluYl", rev = TRUE) +
-  # colorspace::scale_color_binned_divergingx(palette = "Spectral", 
-  #                                           breaks = c(0, 10, 20, 28)) +
-  theme(legend.text = element_text(size = 10),
-        legend.key.width = unit(1, 'cm')) +
-  scale_x_continuous(breaks = scales::pretty_breaks(6)) +
-  labs(x = "Longitude", y = "Latitude", col = "") +
-  ggtitle(label = "Location of the sediment cores",
-          subtitle = "Number of species (out of 28) with zero count")
-p_map
-
-
-
-# plot_grid(p_map, p_mean_total)
-
-# knitr::include_graphics("./figures/mapping_location_total_zero.png")
-```
-
----
 ## Pollen data: Species statistics
 
-```{r plot-stats, out.width="100%"}
+```{r plot-stats, out.width="80%", fig.width = 12, fig.height = 8}
 data_species_stats <- data_pollen |> 
   dplyr::group_by(specie) |> 
   dplyr::summarise(mean_total = mean(total, na.rm = TRUE),
@@ -251,7 +217,7 @@ p_mean_total
 
 
 ---
-## Pollen data
+## Pollen data: Empirical composition vs MTCO
 
 ```{r plot-pollen, echo = FALSE, out.width="90%", warning=FALSE}
 data_pollen |>
@@ -263,6 +229,8 @@ data_pollen |>
            aes(y = NA_real_), col = "red", alpha = 0.5) +
   labs(y = "Pollen composition", x = "Mean temperature of coldest month (MTCO)")
 ```
+
+
 
 ---
 ## Related work
@@ -309,27 +277,22 @@ $\mathbf{Y}_i = (12, 0, 0, 0, 0)$.
   - In extreme cases where zeros co-occur in all but one category, the count for the
 remaining category will coincide with the number of trials, $N_i$.
 
-<!-- --- -->
-<!-- # The zero-and-N-inflated multinomial (ZANIM) distribution -->
-
-<!-- - `r Citet(bib, "Menezes2025")` introduced the ZANIM distribution to account for structural zeros -->
-<!-- across the categories of the multinomial distribution. -->
-
-<!-- - The derivation shares some connections with the multinomial-Poisson transformation of `r Citet(bib, "Baker1994")` and proceeds by: -->
-<!--   - reparameterising the multinomial distribution,  -->
-<!--   - introducing a latent variable,  -->
-<!--   - replacing the 'Poisson-type' form of the resulting augmented likelihood contributions by a zero-inflated Poisson form `r Citep(bib, "Lambert1992")`,  -->
-<!--   - and then marginalising out the latent variable. -->
-
-<!-- - Ultimately, ZANIM admits both a stochastic representation and a finite mixture representation. -->
-
 ---
 # The zero-and-N-inflated multinomial (ZANIM) distribution
 
-- `r Citet(bib, "Menezes2025")` derived the ZANIM distribution to account for structural zeros
+- `r Citet(bib, "Menezes2025")` introduced the ZANIM distribution to account for structural zeros
 across the categories of the multinomial distribution.
 
---
+- The **derivation** shares some connections with the multinomial-Poisson transformation of `r Citet(bib, "Baker1994")` and proceeds by:
+  - reparameterising the multinomial distribution,
+  - introducing a latent variable,
+  - replacing the 'Poisson-type' form of the resulting augmented likelihood contributions by a zero-inflated Poisson form `r Citep(bib, "Lambert1992")`,
+  - and then marginalising out the latent variable.
+
+- Ultimately, ZANIM admits both a stochastic representation and a finite mixture representation.
+
+---
+# ZANIM: Sthocastic representation
 
 $$\begin{align*}
 (z_{ij} \mid \zeta_{j}) & \overset{\operatorname{ind.}}{\sim} \operatorname{Bernoulli}\lbrack 1 - \zeta_j \rbrack, \quad j\in\{1,\ldots, d\},\\
@@ -346,7 +309,7 @@ for each category, such that $\zeta_j \in \lbrack 0, 1 \rbrack$.
 as the *individual-level* count probabilities, for $i\in\{1,\ldots,n\}$ and $j\in\{1,\ldots,d\}$.
 
 ---
-# ZANIM: finite mixture representation
+# ZANIM: Finite mixture PMF
 
 $$\begin{align}\Pr\lbrack
 \mathbf{Y}_i = \mathbf{y}_i; \boldsymbol{\theta}, \boldsymbol{\zeta}\rbrack &= \eta_d\,\binom{N}{y_{i1} \dots y_{id}}\,
@@ -501,7 +464,7 @@ class: middle, inverse
 
 .pull-left[
 
-.font80[
+.font90[
 
 - Bayesian additive regression trees (BART) is a **nonparametric prior** that represents 
 an unknown function $f(\mathbf{x}_i)$ of interest as a sum of decision trees `r Citep(bib, "Chipman2010")`:
@@ -526,7 +489,7 @@ knitr::include_graphics("./figures/trees_from_mmm.png")
 ```
 
 
-.font80[
+.font90[
 - The prior is $\pi(\mathcal{T}_h, \mathcal{M}_h) = \pi_\mathcal{T}(\mathcal{T}_h)\pi_{\mathcal{M}}(\mathcal{M}_h \mid \mathcal{T}_h)$.
   - $\pi_\mathcal{T}(\mathcal{T}_h)$ is a branching process `r Citep(bib, "Chipman1998")`.
   - $\pi_{\mathcal{M}}(\mathcal{M}_h \mid \mathcal{T}_h)=\prod_{t \in \mathcal{L}_h} \pi_\mu(\mu_{ht})$,
@@ -555,7 +518,7 @@ $$\log\left\lbrack f(\mathbf{x}_i) \right\rbrack = \sum_{h=1}^{m}\log\left\lbrac
 \mathcal{L}_h,$$
 
 
-- Posterior sampling of $\{(\mathcal{T}_h, \mathcal{M}_h)\}_{h=1}^m$: similar procedure, but using a *generalised* (modified) Bayesian backfitting.
+- Posterior sampling of $\{(\mathcal{T}_h, \mathcal{M}_h)\}_{h=1}^m$: similar procedure, but using a *generalised* Bayesian backfitting.
 
 
 ---
@@ -585,7 +548,7 @@ are the corresponding set of terminal node parameters.
 --
 
 .font80[
-- probit-BART prior of `r Citet(bib, "Chipman2010")` for the structural zero probabilities, $\boldsymbol{\zeta}_i$:
+- probit BART prior of `r Citet(bib, "Chipman2010")` for the structural zero probabilities, $\boldsymbol{\zeta}_i$:
 $$\zeta_{ij} = \Phi\left( f^{(0)}_j(\mathbf{x}_i) \right) = \Phi\left\lbrack \sum_{h=1}^{m_\zeta}  g\left(\mathbf{x}_i; \mathcal{T}^{(0)}_{hj}, \mathcal{M}_{hj}\right) \right\rbrack,$$
 where $\Phi(\cdot)$ is standard normal cumulative distribution function,
 and  $\mathcal{T}^{(0)}_{hj}$ and $\mathcal{M}_{hj} = \{\mu_{htj}\colon \mathcal{L}^{(0)}_{hj} \}$
@@ -696,9 +659,9 @@ $\boldsymbol{\eta}_i \sim \operatorname{Normal}_k\lbrack \mathbf{0}_k, \mathbf{I
 $\boldsymbol{\epsilon}_i \sim \operatorname{Normal}_{d-1}\left\lbrack\mathbf{0}_{d-1}, \boldsymbol{\Psi}\right\rbrack$, with
 $\boldsymbol{\Psi}=\operatorname{diag}\left\{ \psi_1, \ldots, \psi_{d-1}\right\}$.
 
-- Multiplicative gamma process shrinkage prior on $\boldsymbol{\Gamma}$ `r Citep(bib, "Bhattacharya2011")`.
+<!-- - Multiplicative gamma process shrinkage prior on $\boldsymbol{\Gamma}$ `r Citep(bib, "Bhattacharya2011")`. -->
 
-<!-- - We shrink the contributions of the redundant loadings columns using the multiplicative gamma process shrinkage prior `r Citep(bib, c("Bhattacharya2011", "Murphy2020"))`. -->
+- We shrink the contributions of the redundant loadings columns using the multiplicative gamma process shrinkage prior `r Citep(bib, c("Bhattacharya2011", "Murphy2020"))`.
 ]
 
 ---
@@ -982,7 +945,7 @@ Northern Hemisphere, along with three climate covariates `r Citep(bib, "Parnell2
 - Training: $5{,}832$ observations.
 - Holdout: $2{,}000$ observations.
 
-- All models included in the comparison are implemented in our `R` package `zanicc`, available at
+- All models are implemented in `C++` in our `R` package `zanicc`, available at
 <a href="http://github.com/AndrMenezes/zanicc">`r icons::fontawesome("github")` AndrMenezes/zanicc</a>.
 
 ]
@@ -1088,7 +1051,7 @@ flexible covariate effects.
 
 **Future work**
   - Use our proposed models for the inverse posterior problem `r Citet(bib, "Parnell2015")`:
-    - Given new pollen counts $\mathbf{Y}_i^\ast$ what is the climate $\mathbf{x}^{\ast}$ associated with them, i.e., $p(\mathbf{x}^{\ast} \mid \mathbf{Y}_i^\ast, \mathbf{Y}, \mathbf{x})$?.
+    - Given new pollen counts $\mathbf{Y}_i^\ast$, what is the climate $\mathbf{x}^{\ast}$ associated with them, i.e., $p(\mathbf{x}^{\ast} \mid \mathbf{Y}_i^\ast, \mathbf{Y}, \mathbf{x})$?
   
   - Relax the independence across $\mathbf{z}_i$ using the probit seemingly unrelated BART (probit-suBART) prior of `r Citet(bib, "Esser2025")`.
 ]
