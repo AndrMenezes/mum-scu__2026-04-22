@@ -482,7 +482,7 @@ where `\(\pi_\mu\)` is chosen so that it is conditionally conjugate.
 # The BART prior
 
 - Posterior sampling of `\(\{(\mathcal{T}_h, \mathcal{M}_h)\}_{h=1}^m\)`.
-  - Monte Carlo Markov chain (MCMC) methods with the Bayesian backfitting algorithm of &lt;a name=cite-Hastie2000&gt;&lt;/a&gt;[Hastie et al. (2000)](#bib-Hastie2000).
+  - Markov chain Monte Carlo (MCMC) methods with the Bayesian backfitting algorithm of &lt;a name=cite-Hastie2000&gt;&lt;/a&gt;[Hastie et al. (2000)](#bib-Hastie2000).
   - Block update on `\((\mathcal{T}_h, \mathcal{M}_h)\)`:
       - Metropolis-Hastings step for `\((\mathcal{T}_{h} \mid \mathcal{T}_{(h)}, \mathcal{M}_{(h)}, \ldots)\)`.
       - Sample from full conditional distribution `\((\mathcal{M}_h \mid \mathcal{T}_{h}, \mathcal{T}_{(h)}, \mathcal{M}_h, \ldots)\)`.
@@ -526,7 +526,7 @@ are the corresponding set of terminal node parameters.
 --
 
 .font80[
-- probit-BART prior of [Chipman et al. (2010)](#bib-Chipman2010) for the structural zero probabilities, `\(\boldsymbol{\zeta}_i\)`:
+- probit BART prior of [Chipman et al. (2010)](#bib-Chipman2010) for the structural zero probabilities, `\(\boldsymbol{\zeta}_i\)`:
 `$$\zeta_{ij} = \Phi\left( f^{(0)}_j(\mathbf{x}_i) \right) = \Phi\left\lbrack \sum_{h=1}^{m_\zeta}  g\left(\mathbf{x}_i; \mathcal{T}^{(0)}_{hj}, \mathcal{M}_{hj}\right) \right\rbrack,$$`
 where `\(\Phi(\cdot)\)` is standard normal cumulative distribution function,
 and  `\(\mathcal{T}^{(0)}_{hj}\)` and `\(\mathcal{M}_{hj} = \{\mu_{htj}\colon \mathcal{L}^{(0)}_{hj} \}\)`

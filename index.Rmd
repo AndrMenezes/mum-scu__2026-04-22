@@ -504,7 +504,7 @@ where $\pi_\mu$ is chosen so that it is conditionally conjugate.
 # The BART prior
 
 - Posterior sampling of $\{(\mathcal{T}_h, \mathcal{M}_h)\}_{h=1}^m$.
-  - Monte Carlo Markov chain (MCMC) methods with the Bayesian backfitting algorithm of `r Citet(bib, "Hastie2000")`.
+  - Markov chain Monte Carlo (MCMC) methods with the Bayesian backfitting algorithm of `r Citet(bib, "Hastie2000")`.
   - Block update on $(\mathcal{T}_h, \mathcal{M}_h)$:
       - Metropolis-Hastings step for $(\mathcal{T}_{h} \mid \mathcal{T}_{(h)}, \mathcal{M}_{(h)}, \ldots)$.
       - Sample from full conditional distribution $(\mathcal{M}_h \mid \mathcal{T}_{h}, \mathcal{T}_{(h)}, \mathcal{M}_h, \ldots)$.
