@@ -32,7 +32,7 @@ theme_set(
 )
 options(digits = 4L)
 
-BibOptions(check.entries = FALSE, bib.style = "authoryear", 
+BibOptions(check.entries = FALSE, bib.style = "authoryear",
            cite.style = 'authoryear',
            style = "markdown",
            no.print.fields = c("doi", "issn", "urldate"),
@@ -50,7 +50,7 @@ data_pollen
 data_pollen_wide <- data_pollen |>
   dplyr::select(-c(category, prop)) |>
   dplyr::mutate(total = as.integer(total)) |>
-  tidyr::pivot_wider(names_from = specie, values_from = total) 
+  tidyr::pivot_wider(names_from = specie, values_from = total)
 
 ```
 
@@ -96,12 +96,12 @@ data_pollen_wide <- data_pollen |>
 
 - Let $E_j := ``\textrm{category } j \textrm{ occurs''}$ with probability $\Pr\lbrack E_j\rbrack = \theta_j$ for $j\in\{1, \ldots,d\}$. Note that $\Pr\left\lbrack \bigcup_{j=1}^d E_j\right\rbrack = \sum_{j=1}^d \Pr\lbrack E_j \rbrack = \sum_{j=1}^d \theta_j = 1$.
 
-- Let $Y_j$ be a *random variable* denoting the **frequency** which category $j$ is observed over the $N$ independent trials. 
+- Let $Y_j$ be a *random variable* denoting the **frequency** which category $j$ is observed over the $N$ independent trials.
 The joint probability $\{Y_1 = y_1, \ldots, Y_d = y_d\}$ is given by:
 
 --
 
-$$\Pr \lbrack \mathbf{Y} = \mathbf{y}; \boldsymbol{\theta} \rbrack = 
+$$\Pr \lbrack \mathbf{Y} = \mathbf{y}; \boldsymbol{\theta} \rbrack =
 \binom{N}{y_{1} \dots y_{d}}\,\prod\limits_{j=1}^d\theta_j^{y_{j}}, \quad \mathbf{y} \in \mathbb{S}_N^d.$$
 
 > The random vector $\mathbf{Y}=(Y_1, \ldots, Y_d)$ has a multinomial distribution: $$\mathbf{Y} \sim \operatorname{Multinomial}\lbrack N, \theta_1, \ldots, \theta_d \rbrack,$$ where $\boldsymbol{\theta}$ are the _population-level count(-compositional) probabilities_ with $\theta_j \in [0,1]$, $\sum_{j=1}^d \theta_j=1$.
@@ -131,14 +131,14 @@ with observation-specific totals $N_i$.
 
   - Assume $(\mathbf{Y}_i \mid \boldsymbol{\theta}) \sim \operatorname{Multinomial}\lbrack N_i, \theta_1, \ldots, \theta_d \rbrack$.
 
-  - Treat $\boldsymbol{\theta}=(\theta_1, \ldots, \theta_d)$ as a **random vector**. 
+  - Treat $\boldsymbol{\theta}=(\theta_1, \ldots, \theta_d)$ as a **random vector**.
     - Dirichlet-multinomial (DM) model: $\boldsymbol{\theta} \sim \operatorname{Dirichlet}\lbrack \boldsymbol{\alpha}\rbrack$.
     - Multinomial logistic normal (MLN) model: $\boldsymbol{\theta} \sim \operatorname{LogisticNormal}\lbrack \boldsymbol{\mu}, \boldsymbol{\Sigma}\rbrack$.
 
 --
 
 - Given $\mathbf{x}_i = (x_{i1}, \ldots, x_{ip})$ sample-specific covariates, regression-based models usually relate $\mathbf{x}_i$ to each $\theta_j$ through a suitable link function with a **parametric linear functional form**.
-  
+
   - multinomial logistic (ML) regression model:
   $\log \left( \theta_{ij} / g(\boldsymbol{\theta}) \right) = \mathbf{x}_i^\top \boldsymbol{\beta}_j$, for example, with $g(\boldsymbol{\theta})=\left(\prod_{k=1}^d \theta_{ik}\right)^{1/d}$.
   - DM log-linear regression model: $\log \alpha_{ij} = \mathbf{x}_i^\top \boldsymbol{\beta}_j$.
@@ -164,14 +164,14 @@ table_descr <- data.frame(Data = c("Pollen", "Microbiome"),
                                             paste0("[", min(microbiome_N), ", ", max(microbiome_N), "]")),
                           pct_zeros = 100*c(mean(pollen_data$Y == 0), mean(microbiome_data$Y == 0)),
                           ZI = c(zanicc::zi_multinomial(pollen_data$Y), zanicc::zi_multinomial(microbiome_data$Y)),
-                          MDI = c(zanicc::mdi(pollen_data$Y), zanicc::mdi(microbiome_data$Y)), 
+                          MDI = c(zanicc::mdi(pollen_data$Y), zanicc::mdi(microbiome_data$Y)),
                           MCV = c(zanicc::mcv(pollen_data$Y), zanicc::mcv(microbiome_data$Y)))
 colnames(table_descr) <- c("Data", "Sample size (\\(n\\))", "Number of categories (\\(d\\))",
-                           "Number of covariates (\\(p\\))", 
-                           "Number of trials (\\(N_i\\))", 
+                           "Number of covariates (\\(p\\))",
+                           "Number of trials (\\(N_i\\))",
                            "% of zeros", "ZI", "MDI", "MCV")
 kableExtra::kbl(x = t(table_descr), escape = FALSE,
-                caption = "Descriptive statistics for the pollen and microbiome data sets") |> 
+                caption = "Descriptive statistics for the pollen and microbiome data sets") |>
   kableExtra::kable_styling(bootstrap_options = "striped", full_width = FALSE)
 ```
 
@@ -193,23 +193,23 @@ data_pollen_wide |>
 ## Pollen data: Species statistics
 
 ```{r plot-stats, out.width="80%", fig.width = 12, fig.height = 8}
-data_species_stats <- data_pollen |> 
-  dplyr::group_by(specie) |> 
+data_species_stats <- data_pollen |>
+  dplyr::group_by(specie) |>
   dplyr::summarise(mean_total = mean(total, na.rm = TRUE),
                    mean_prop = mean(prop, na.rm = TRUE),
                    mean_zero = mean(total == 0, na.rm = TRUE))
-ordered_specie <- data_species_stats |> 
-  arrange(-mean_prop) |> 
+ordered_specie <- data_species_stats |>
+  arrange(-mean_prop) |>
   pull(specie)
 
-p_mean_total <- ggplot(data_species_stats, aes(x = reorder(specie, -mean_total), 
+p_mean_total <- ggplot(data_species_stats, aes(x = reorder(specie, -mean_total),
                                y = mean_total, fill = mean_zero)) +
   geom_col() +
   coord_flip() +
   labs(x = "Specie", y = "Abundance", fill = "Proportion of zeros") +
   colorspace::scale_fill_continuous_divergingx() +
   theme(legend.text = element_text(size = 10),
-        legend.key.width = unit(1, 'cm')) 
+        legend.key.width = unit(1, 'cm'))
 # +
 #   ggtitle(label = "Mean abundance by species, colored by zero proportion")
 p_mean_total
@@ -259,7 +259,7 @@ class: middle, inverse
 
 - Zeros may have different meanings `r Citep(bib, "BlascoMoreno2019")`:
   - Sampling zeros: due to sampling variability.
-  - Structural zeros: related to constraints on experimental conditions (data collection). 
+  - Structural zeros: related to constraints on experimental conditions (data collection).
 
 - The multinomial, DM, and MLN distributions can not handle an excess of zeros.
 
@@ -268,7 +268,7 @@ class: middle, inverse
 <!-- - While many zero-inflated univariate models have been proposed, count-compositional data present the additional challenge that excess zeros can occur in a single category or across multiple categories. -->
 
 - Excess zeros can occur in a single category or across multiple categories.
-  
+
   - $d = 5$ and $N = 12$: $\mathbf{Y}_i = (2, 3, 0, 4, 3)$, $\mathbf{Y}_i = (9, 3, 0, 0, 0)$, or
 $\mathbf{Y}_i = (12, 0, 0, 0, 0)$.
 
@@ -319,27 +319,27 @@ $$\begin{align}\Pr\lbrack
 \fbox{N-inflation components}\rightarrow &\phantom{=}~+
 \sum_{j=1}^{d}\,
 \eta_{N}^{(j)}
-\left\lbrack 
+\left\lbrack
 I_0\left(\sum_{k\colon k \neq j} y_{ik} \right)\,
 \right\rbrack \\
-\fbox{Reduced multinomials components}\rightarrow 
+\fbox{Reduced multinomials components}\rightarrow
 &\phantom{=}~+
-\sum_{\mathcal{K} \in \mathfrak{K}} 
+\sum_{\mathcal{K} \in \mathfrak{K}}
 \eta_{\mathcal{K}}
 \left\lbrack
-I_0\left(\sum_{k \in \mathcal{K}} y_{ik}\right) 
-\binom{N}{\{y_{ij}\}_{j \notin \mathcal{K}}} 
+I_0\left(\sum_{k \in \mathcal{K}} y_{ik}\right)
+\binom{N}{\{y_{ij}\}_{j \notin \mathcal{K}}}
 \prod_{j \notin \mathcal{K}} \left( \theta_j^{\mathcal{K}} \right)^{y_{ij}}
 \right\rbrack  
 \end{align}$$
 for $\mathbf{y}_i \in \mathbb{S}^d_{N_i} \cup \mathbf{0}_d$,
 where
 $\theta_j^{\mathcal{K}} = \dfrac{\theta_j}{1 - \sum_{\ell \in \mathcal{K}}\,\theta_{\ell}}$,
-and 
+and
 $\mathfrak{K} = \{\mathcal{K} \subseteq \{1,\ldots,d\}; 1 \leq \lvert\mathcal{K}\rvert \leq d-2\}$.
 
 --
-> We do not need to evaluate ALL $2^d$ mixture components and there are only 
+> We do not need to evaluate ALL $2^d$ mixture components and there are only
 $2d$ parameters, as the mixture weights $\boldsymbol{\eta}$ are simple functions of
 the $\boldsymbol{\zeta}$ parameters.
 
@@ -416,7 +416,7 @@ Finite mixture representations of zero-and-_N_-inflated distributions for count-
 - Let be $\mathbf{u}_i \sim \operatorname{Normal}_d\left\lbrack \boldsymbol{0}, \boldsymbol{\Sigma}_U \right\rbrack$ latent variables. Consider the
 parameterisation
 $$\vartheta_{ij} = \frac{z_{ij}\alpha_{j} e^{u_{ij}}}{\sum_{k=1}^dz_{ik}\alpha_{k} e^{u_{ik}}},$$
-where $\alpha_j > 0$ is a category-specific concentration parameter. 
+where $\alpha_j > 0$ is a category-specific concentration parameter.
 
 - The population-level count probabilities are $\theta_{j}=\alpha_j/\sum_{k=1}^d \alpha_k$.
 
@@ -429,19 +429,19 @@ options(knitr.kable.NA = '')
 
 tab <-   data.frame(
     distribution = c("Multinomial", "ZANIM**", "DM", "ZANIDM", "MLN", "ZANIM-LN**"),
-    random_effects = c("✗", "✗", 
+    random_effects = c("✗", "✗",
                          "\\(\\lambda_{ij} \\sim \\operatorname{Gamma}(\\alpha_j, 1)\\)",
                          "\\(\\lambda_{ij} \\sim \\operatorname{Gamma}(\\alpha_j, 1)\\)",
                          "\\(\\mathbf{u}_i \\sim \\operatorname{Normal}_d(\\mathbf{0}, \\boldsymbol{\\Sigma}_U)\\)",
                          "\\(\\mathbf{u}_i \\sim \\operatorname{Normal}_d(\\mathbf{0}, \\boldsymbol{\\Sigma}_U)\\)"),
     structuralzeros = c("✗", "✔", "✗", "✔", "✗", "✔"),
     theta = c("\\(\\theta_j\\)",
-              "\\(\\theta_j\\)", 
+              "\\(\\theta_j\\)",
               "\\(\\alpha_j / \\sum_{k=1}^d \\alpha_k\\)",
               "\\(\\alpha_j / \\sum_{k=1}^d \\alpha_k\\)",
               "\\(\\alpha_j / \\sum_{k=1}^d \\alpha_k\\)",
               "\\(\\alpha_j / \\sum_{k=1}^d \\alpha_k\\)"),
-    vartheta = c("✗", 
+    vartheta = c("✗",
                  "\\(z_{ij}\\theta_j / \\sum_{k=1}^d z_{ik}\\theta_k\\)",
                  "\\(\\lambda_{ij} / \\sum_{k=1}^d \\lambda_{ik}\\)",
                  "\\(z_{ij}\\lambda_{ij} / \\sum_{k=1}^d z_{ik}\\lambda_{ik}\\)",
@@ -466,7 +466,7 @@ class: middle, inverse
 
 .font90[
 
-- Bayesian additive regression trees (BART) is a **nonparametric prior** that represents 
+- Bayesian additive regression trees (BART) is a **nonparametric prior** that represents
 an unknown function $f(\mathbf{x}_i)$ of interest as a sum of decision trees `r Citep(bib, "Chipman2010")`:
 $$f(\mathbf{x}_i) = \sum_{h=1}^{m}g\left(\mathbf{x}_i, \mathcal{T}_h, \mathcal{M}_h\right),$$
 where $g(\mathbf{x}_i, \mathcal{T}_h, \mathcal{M}_h)$ denotes a binary decision
@@ -511,10 +511,10 @@ where $\pi_\mu$ is chosen so that it is conditionally conjugate.
 
 --
 
-- The log-linear BART prior of `r Citet(bib, "Murray2021")` reparameterises the terminal node parameters via $\lambda_{ht} = e^{\mu_{ht}}$, where $\lambda_{ht}>0$, such that 
+- The log-linear BART prior of `r Citet(bib, "Murray2021")` reparameterises the terminal node parameters via $\lambda_{ht} = e^{\mu_{ht}}$, where $\lambda_{ht}>0$, such that
 $\Lambda_h = \{\lambda_{ht}\colon t \in \mathcal{L}_h\}$. Then,
-$$\log\left\lbrack f(\mathbf{x}_i) \right\rbrack = \sum_{h=1}^{m}\log\left\lbrack g\left(\mathbf{x}_i; \mathcal{T}_h, \Lambda_h\right)\right\rbrack 
-= \sum_{h=1}^{m}\log(\lambda_{ht})1(\mathbf{x}_i \in \mathcal{A}_{ht}), \quad t \in 
+$$\log\left\lbrack f(\mathbf{x}_i) \right\rbrack = \sum_{h=1}^{m}\log\left\lbrack g\left(\mathbf{x}_i; \mathcal{T}_h, \Lambda_h\right)\right\rbrack
+= \sum_{h=1}^{m}\log(\lambda_{ht})1(\mathbf{x}_i \in \mathcal{A}_{ht}), \quad t \in
 \mathcal{L}_h,$$
 
 
@@ -536,12 +536,12 @@ $$\log\left\lbrack f(\mathbf{x}_i) \right\rbrack = \sum_{h=1}^{m}\log\left\lbrac
 - log-linear BART prior of `r Citet(bib, "Murray2021")` for the logistic transformation of $\boldsymbol{\theta}_i$:
 
 $$\theta_{ij} = \frac{f_j^{(\mathrm{c})}(\mathbf{x}_i)}{\sum_{k=1}^d f_k^{(\mathrm{c})}(\mathbf{x}_i)},
-\quad 
+\quad
 \log f_j^{(\mathrm{c})}(\mathbf{x}_i) =
 \sum_{h=1}^{m_\theta}\log\left\lbrack g\left(\mathbf{x}_i; \mathcal{T}^{(\mathrm{c})}_{hj},
 \Lambda_{hj}\right)\right\rbrack,$$
 where $\mathcal{T}^{(\mathrm{c})}_{hj}$ denotes the $h$-th binary tree topology
-for the category $j$ and $\Lambda_{hj} = \{\lambda_{htj}\colon \mathcal{L}^{(\mathrm{c})}_{hj} \}$ 
+for the category $j$ and $\Lambda_{hj} = \{\lambda_{htj}\colon \mathcal{L}^{(\mathrm{c})}_{hj} \}$
 are the corresponding set of terminal node parameters.
 ]
 
@@ -552,7 +552,7 @@ are the corresponding set of terminal node parameters.
 $$\zeta_{ij} = \Phi\left( f^{(0)}_j(\mathbf{x}_i) \right) = \Phi\left\lbrack \sum_{h=1}^{m_\zeta}  g\left(\mathbf{x}_i; \mathcal{T}^{(0)}_{hj}, \mathcal{M}_{hj}\right) \right\rbrack,$$
 where $\Phi(\cdot)$ is standard normal cumulative distribution function,
 and  $\mathcal{T}^{(0)}_{hj}$ and $\mathcal{M}_{hj} = \{\mu_{htj}\colon \mathcal{L}^{(0)}_{hj} \}$
-are the category-specific tree structure and terminal node parameters, respectively. 
+are the category-specific tree structure and terminal node parameters, respectively.
 ]
 
 ---
@@ -581,17 +581,17 @@ $$\begin{align}
 
 
 
-Let $\boldsymbol{f}^{(\mathrm{c})} = (f_1^{(\mathrm{c})}, \ldots, f_d^{(\mathrm{c})})$ and $\boldsymbol{f}^{(0)} = (f_1^{(0)}, \ldots, f_d^{(0)})$. 
+Let $\boldsymbol{f}^{(\mathrm{c})} = (f_1^{(\mathrm{c})}, \ldots, f_d^{(\mathrm{c})})$ and $\boldsymbol{f}^{(0)} = (f_1^{(0)}, \ldots, f_d^{(0)})$.
 --
 
 Two steps of data augmentation:
 $$\left(\phi_i \mid \mathbf{y}_i, \mathbf{z}_i, \mathbf{u}_i, \boldsymbol{f}^{(\mathrm{c})} \right) \overset{\operatorname{ind.}}{\sim}
 \operatorname{Gamma}\left\lbrack N_i, \sum_{j=1}^d z_{ij}f_j^{(\mathrm{c})}(\mathbf{x}_i)e^{u_{ij}}\right\rbrack,$$
 and
-$$(w_{ij} \mid z_{ij}, f_j^{(0)}) \sim 
-\begin{cases} 
-w_{ij} \sim \operatorname{TN}_{\lbrack -\infty, 0\rbrack}\lbrack f_j^{(0)}(\mathbf{x}_i), 1 \rbrack, & \textrm{if} \: z_{ij} = 1,\\
-w_{ij} \sim \operatorname{TN}_{\lbrack 0, \infty\rbrack}\lbrack f_j^{(0)}(\mathbf{x}_i), 1 \rbrack, & \textrm{if} \: z_{ij} = 0.
+$$(w_{ij} \mid z_{ij}, f_j^{(0)}) \sim
+\begin{cases}
+\operatorname{TN}_{\lbrack -\infty, 0\rbrack}\lbrack f_j^{(0)}(\mathbf{x}_i), 1 \rbrack, & \textrm{if} \: z_{ij} = 1,\\
+\operatorname{TN}_{\lbrack 0, \infty\rbrack}\lbrack f_j^{(0)}(\mathbf{x}_i), 1 \rbrack, & \textrm{if} \: z_{ij} = 0.
 \end{cases}$$
 --
 
@@ -605,7 +605,7 @@ $$\mathscr{L}\left(\boldsymbol{f}^{(\mathrm{c})}, \boldsymbol{f}^{(0)}; \mathbf{
 \left\lbrack f_j^{(\mathrm{c})}(\mathbf{x}_i)\right\rbrack^{y_{ij}}
 e^{-\phi_i z_{ij}e^{u_{ij}}f_j^{(\mathrm{c})}(\mathbf{x}_i)}
 \right\},$$
-where $\varphi(x; \mu, \sigma^2)$ is the Gaussian probability density function 
+where $\varphi(x; \mu, \sigma^2)$ is the Gaussian probability density function
 with mean $\mu$ and variance $\sigma^2$.
 
 ---
@@ -654,7 +654,7 @@ has high prior probability of lying in $(-3.0, 3.0)$.
 
 $$\mathbf{v}_i = \boldsymbol{\Gamma} \boldsymbol{\eta}_i + \boldsymbol{\epsilon}_i,$$
 where $\boldsymbol{\Gamma} = \left\lbrack \gamma_{hj}\right\rbrack_{h=1,\ldots,d-1}^{j=1,\ldots,k}$ is a
-$(d-1) \times k$ factor loading matrix, 
+$(d-1) \times k$ factor loading matrix,
 $\boldsymbol{\eta}_i \sim \operatorname{Normal}_k\lbrack \mathbf{0}_k, \mathbf{I}_k\rbrack$, and
 $\boldsymbol{\epsilon}_i \sim \operatorname{Normal}_{d-1}\left\lbrack\mathbf{0}_{d-1}, \boldsymbol{\Psi}\right\rbrack$, with
 $\boldsymbol{\Psi}=\operatorname{diag}\left\{ \psi_1, \ldots, \psi_{d-1}\right\}$.
@@ -672,7 +672,7 @@ $\boldsymbol{\Psi}=\operatorname{diag}\left\{ \psi_1, \ldots, \psi_{d-1}\right\}
 - The integrated likelihood of $\mathcal{T}^{(\mathrm{c})}_{hj}$ is
 
 $$\pi\left(\mathcal{T}^{(\mathrm{c})}_{hj} \mid \mathcal{T}^{(\mathrm{c})}_{(h)j}, \Lambda_{(h)j}, \mathbf{y},
-\mathbf{z}, \mathbf{u}, \boldsymbol{\phi}\right) 
+\mathbf{z}, \mathbf{u}, \boldsymbol{\phi}\right)
 \propto
 \pi_{\mathcal{T}}\left(\mathcal{T}^{(\mathrm{c})}_{hj}\right)
 \prod_{t \in \mathcal{L}^{(\mathrm{c})}_{hj}}
@@ -682,7 +682,7 @@ $$\pi\left(\mathcal{T}^{(\mathrm{c})}_{hj} \mid \mathcal{T}^{(\mathrm{c})}_{(h)j
 - The posterior distribution of ${\Lambda_{hj}}$ is
 
 $$\left(
-\lambda_{thj} \mid 
+\lambda_{thj} \mid
 \mathcal{T}^{(\mathrm{c})}_{hj},  \mathcal{T}^{(\mathrm{c})}_{(h)j}, \Lambda_{(h)j}, \mathbf{y}, \mathbf{z}, \boldsymbol{\phi}
 \right)
 \overset{\operatorname{ind.}}{\sim}\operatorname{Gamma}\left\lbrack r^{(\mathrm{c})}_{htj} + c_0, s^{(\mathrm{c})}_{htj} + d_0\right\rbrack,
@@ -698,16 +698,16 @@ and $s^{(\mathrm{c})}_{htj}=\sum_{i\colon\mathbf{x}_i \in \mathcal{A}^{(\mathrm{
 - The integrated likelihood of $\mathcal{T}^{(0)}_{hj}$ is
 
 $$\pi\left(\mathcal{T}^{(0)}_{hj} \mid \mathbf{r}_{(h)j}\right)
-\propto 
+\propto
 \pi_{\mathcal{T}}\left(\mathcal{T}^{(0)}_{h}\right)
 \prod_{t \in \mathcal{L}^{(0)}_{hj}}
 \left(\dfrac{1}{n_{htj}\sigma_\mu^2 + 1}\right)^{1/2}\!
 \exp\left\lbrack \dfrac{1}{2} \left(  \dfrac{\sigma^2_\mu\left(s^{(0)}_{htj}\right)^2}{2(n_{htj}\sigma^2_\mu + 1)} \right)\right\rbrack.$$
 
 - The posterior distribution of ${\mathcal{M}_{hj}}$ is
-$$\left(\mu_{htj} \mid \mathcal{T}^{(0)}_{hj}, \mathbf{r}_{(h)j} \right) \overset{\operatorname{ind.}}{\sim} \operatorname{Normal}\left\lbrack 
+$$\left(\mu_{htj} \mid \mathcal{T}^{(0)}_{hj}, \mathbf{r}_{(h)j} \right) \overset{\operatorname{ind.}}{\sim} \operatorname{Normal}\left\lbrack
 \dfrac{s^{(0)}_{htj}}{n_{htj} + \sigma^2_\mu}, 1 / (n_{htj} + 1 / \sigma_\mu^2)\right\rbrack, \quad t \in \mathcal{L}^{(0)}_{hj},$$
-where 
+where
 $s^{(0)}_{htj} = \sum_{i\colon \mathbf{x}_i \in \mathcal{A}^{(0)}_{htj}}r_{(h)ij}$
 and $n_{htj}$ is the total number of observations in the partition $\mathcal{A}^{(0)}_{htj}$.
 
@@ -920,8 +920,8 @@ class: middle, inverse
 ---
 # Data and goals
 
-- $n=7832$ samples of $d=28$ pollen species collected at different site locations in the 
-Northern Hemisphere, along with three climate covariates `r Citep(bib, "Parnell2015")`: 
+- $n=7832$ samples of $d=28$ pollen species collected at different site locations in the
+Northern Hemisphere, along with three climate covariates `r Citep(bib, "Parnell2015")`:
   - growing degree days above five $5^\circ$ (*GDD5*): growing season warmth.
   - mean temperature of the coldest month (*MTCO*): harshness of the winter.
   - ratio of actual to potential evapotranspiration (*AET/PET*): available moisture.
@@ -931,7 +931,7 @@ Northern Hemisphere, along with three climate covariates `r Citep(bib, "Parnell2
 
 --
 
-- Specification of effective models for pollen-climate data presents two important statistical challenges `r Citep(bib, "Sweeney2018")`: 
+- Specification of effective models for pollen-climate data presents two important statistical challenges `r Citep(bib, "Sweeney2018")`:
   - Need for a proper count-compositional likelihood that accounts for excess zeros,
   - Flexible functional forms allowing for complex, potentially multimodal pollen-climate relationships.
 
@@ -956,9 +956,9 @@ Northern Hemisphere, along with three climate covariates `r Citep(bib, "Parnell2
 
 - Runtime:
   - ZANIM-BART: 2.47 h  
-  - ZANIM-LN-BART: 2.83 h
+  - ZANIM-LN-BART: 3.23 h
   - MLN-BART: 2.27 h  
-  - ML-BART: 1.76 h  
+  - ML-BART: 2.16 h  
   - DM-reg: 26.6 min  
   - ZANIDM-reg: 33.2 min
 
@@ -972,7 +972,7 @@ Northern Hemisphere, along with three climate covariates `r Citep(bib, "Parnell2
 
 - Compare:
 $$
-d(\mathbf{Y}^{\operatorname{out}}) \quad \text{vs} \quad 
+d(\mathbf{Y}^{\operatorname{out}}) \quad \text{vs} \quad
 p(d(\mathbf{Y}^{\operatorname{rep}}) \mid \mathbf{Y}^{\operatorname{in}})
 $$
 
@@ -980,7 +980,7 @@ $$
   - MDI  
   - Compositional entropy  
   - Proportion of zeros  
-  - Multivariate ZI index 
+  - Multivariate ZI index
 
 ---
 # HPCs
@@ -1028,8 +1028,8 @@ knitr::include_graphics("./figures/predictions_gdd5_mtco_picea.png")
 
   - Provided probabilistic characterisations for structural zeros in count-compositional data `r Citep(bib, "Menezes2025")`.
 
-  - ZANIM-BART and ZANIM-LN-BART models simultaneously address key challenges in 
-count-compositional data: zero-inflation, overdispersion, more complex dependencies, cross-sample heterogeneity, and 
+  - ZANIM-BART and ZANIM-LN-BART models simultaneously address key challenges in
+count-compositional data: zero-inflation, overdispersion, more complex dependencies, cross-sample heterogeneity, and
 flexible covariate effects.
 
   <!-- - Developed MCMC algorithm for the ZANIM-BART and ZANIM-LN-BART models combining -->
@@ -1038,10 +1038,10 @@ flexible covariate effects.
   <!-- - Performed extensive simulations to evaluate the proposed models against competing methods. -->
 
   <!-- - Illustrated the usefulness of our models in the analysis of modern pollen-climate data. -->
-  
+
   - An additional application to human gut microbiome data again confirmed the empirical superiority of our proposed models, particularly ZANIM-LN-BART.
-  
-  - `C++` implementations and code to reproduce the analyses are available in our `R` package `zanicc` from 
+
+  - `C++` implementations and code to reproduce the analyses are available in our `R` package `zanicc` from
 <a href="http://github.com/AndrMenezes/zanicc">`r icons::fontawesome("github")` AndrMenezes/zanicc</a>.
 ]
 
@@ -1052,7 +1052,7 @@ flexible covariate effects.
 **Future work**
   - Use our proposed models for the inverse posterior problem `r Citet(bib, "Parnell2015")`:
     - Given new pollen counts $\mathbf{Y}_i^\ast$, what is the climate $\mathbf{x}^{\ast}$ associated with them, i.e., $p(\mathbf{x}^{\ast} \mid \mathbf{Y}_i^\ast, \mathbf{Y}, \mathbf{x})$?
-  
+
   - Relax the independence across $\mathbf{z}_i$ using the probit seemingly unrelated BART (probit-suBART) prior of `r Citet(bib, "Esser2025")`.
 ]
 
@@ -1100,4 +1100,3 @@ class: middle, inverse
 
 <br><br><br><br><br>
 ]
-

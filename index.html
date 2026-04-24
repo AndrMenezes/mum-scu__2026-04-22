@@ -80,12 +80,12 @@ class: center, middle, inverse, title-slide
 
 - Let `\(E_j := ``\textrm{category } j \textrm{ occurs''}\)` with probability `\(\Pr\lbrack E_j\rbrack = \theta_j\)` for `\(j\in\{1, \ldots,d\}\)`. Note that `\(\Pr\left\lbrack \bigcup_{j=1}^d E_j\right\rbrack = \sum_{j=1}^d \Pr\lbrack E_j \rbrack = \sum_{j=1}^d \theta_j = 1\)`.
 
-- Let `\(Y_j\)` be a *random variable* denoting the **frequency** which category `\(j\)` is observed over the `\(N\)` independent trials. 
+- Let `\(Y_j\)` be a *random variable* denoting the **frequency** which category `\(j\)` is observed over the `\(N\)` independent trials.
 The joint probability `\(\{Y_1 = y_1, \ldots, Y_d = y_d\}\)` is given by:
 
 --
 
-`$$\Pr \lbrack \mathbf{Y} = \mathbf{y}; \boldsymbol{\theta} \rbrack = 
+`$$\Pr \lbrack \mathbf{Y} = \mathbf{y}; \boldsymbol{\theta} \rbrack =
 \binom{N}{y_{1} \dots y_{d}}\,\prod\limits_{j=1}^d\theta_j^{y_{j}}, \quad \mathbf{y} \in \mathbb{S}_N^d.$$`
 
 &gt; The random vector `\(\mathbf{Y}=(Y_1, \ldots, Y_d)\)` has a multinomial distribution: `$$\mathbf{Y} \sim \operatorname{Multinomial}\lbrack N, \theta_1, \ldots, \theta_d \rbrack,$$` where `\(\boldsymbol{\theta}\)` are the _population-level count(-compositional) probabilities_ with `\(\theta_j \in [0,1]\)`, `\(\sum_{j=1}^d \theta_j=1\)`.
@@ -115,14 +115,14 @@ with observation-specific totals `\(N_i\)`.
 
   - Assume `\((\mathbf{Y}_i \mid \boldsymbol{\theta}) \sim \operatorname{Multinomial}\lbrack N_i, \theta_1, \ldots, \theta_d \rbrack\)`.
 
-  - Treat `\(\boldsymbol{\theta}=(\theta_1, \ldots, \theta_d)\)` as a **random vector**. 
+  - Treat `\(\boldsymbol{\theta}=(\theta_1, \ldots, \theta_d)\)` as a **random vector**.
     - Dirichlet-multinomial (DM) model: `\(\boldsymbol{\theta} \sim \operatorname{Dirichlet}\lbrack \boldsymbol{\alpha}\rbrack\)`.
     - Multinomial logistic normal (MLN) model: `\(\boldsymbol{\theta} \sim \operatorname{LogisticNormal}\lbrack \boldsymbol{\mu}, \boldsymbol{\Sigma}\rbrack\)`.
 
 --
 
 - Given `\(\mathbf{x}_i = (x_{i1}, \ldots, x_{ip})\)` sample-specific covariates, regression-based models usually relate `\(\mathbf{x}_i\)` to each `\(\theta_j\)` through a suitable link function with a **parametric linear functional form**.
-  
+
   - multinomial logistic (ML) regression model:
   `\(\log \left( \theta_{ij} / g(\boldsymbol{\theta}) \right) = \mathbf{x}_i^\top \boldsymbol{\beta}_j\)`, for example, with `\(g(\boldsymbol{\theta})=\left(\prod_{k=1}^d \theta_{ik}\right)^{1/d}\)`.
   - DM log-linear regression model: `\(\log \alpha_{ij} = \mathbf{x}_i^\top \boldsymbol{\beta}_j\)`.
@@ -257,7 +257,7 @@ class: middle, inverse
 
 - Zeros may have different meanings &lt;a name=cite-BlascoMoreno2019&gt;&lt;/a&gt;([Blasco-Moreno et al., 2019](#bib-BlascoMoreno2019)):
   - Sampling zeros: due to sampling variability.
-  - Structural zeros: related to constraints on experimental conditions (data collection). 
+  - Structural zeros: related to constraints on experimental conditions (data collection).
 
 - The multinomial, DM, and MLN distributions can not handle an excess of zeros.
 
@@ -266,7 +266,7 @@ class: middle, inverse
 &lt;!-- - While many zero-inflated univariate models have been proposed, count-compositional data present the additional challenge that excess zeros can occur in a single category or across multiple categories. --&gt;
 
 - Excess zeros can occur in a single category or across multiple categories.
-  
+
   - `\(d = 5\)` and `\(N = 12\)`: `\(\mathbf{Y}_i = (2, 3, 0, 4, 3)\)`, `\(\mathbf{Y}_i = (9, 3, 0, 0, 0)\)`, or
 `\(\mathbf{Y}_i = (12, 0, 0, 0, 0)\)`.
 
@@ -317,27 +317,27 @@ as the *individual-level* count probabilities, for `\(i\in\{1,\ldots,n\}\)` and 
 \fbox{N-inflation components}\rightarrow &amp;\phantom{=}~+
 \sum_{j=1}^{d}\,
 \eta_{N}^{(j)}
-\left\lbrack 
+\left\lbrack
 I_0\left(\sum_{k\colon k \neq j} y_{ik} \right)\,
 \right\rbrack \\
-\fbox{Reduced multinomials components}\rightarrow 
+\fbox{Reduced multinomials components}\rightarrow
 &amp;\phantom{=}~+
-\sum_{\mathcal{K} \in \mathfrak{K}} 
+\sum_{\mathcal{K} \in \mathfrak{K}}
 \eta_{\mathcal{K}}
 \left\lbrack
-I_0\left(\sum_{k \in \mathcal{K}} y_{ik}\right) 
-\binom{N}{\{y_{ij}\}_{j \notin \mathcal{K}}} 
+I_0\left(\sum_{k \in \mathcal{K}} y_{ik}\right)
+\binom{N}{\{y_{ij}\}_{j \notin \mathcal{K}}}
 \prod_{j \notin \mathcal{K}} \left( \theta_j^{\mathcal{K}} \right)^{y_{ij}}
 \right\rbrack  
 \end{align}$$`
 for `\(\mathbf{y}_i \in \mathbb{S}^d_{N_i} \cup \mathbf{0}_d\)`,
 where
 `\(\theta_j^{\mathcal{K}} = \dfrac{\theta_j}{1 - \sum_{\ell \in \mathcal{K}}\,\theta_{\ell}}\)`,
-and 
+and
 `\(\mathfrak{K} = \{\mathcal{K} \subseteq \{1,\ldots,d\}; 1 \leq \lvert\mathcal{K}\rvert \leq d-2\}\)`.
 
 --
-&gt; We do not need to evaluate ALL `\(2^d\)` mixture components and there are only 
+&gt; We do not need to evaluate ALL `\(2^d\)` mixture components and there are only
 `\(2d\)` parameters, as the mixture weights `\(\boldsymbol{\eta}\)` are simple functions of
 the `\(\boldsymbol{\zeta}\)` parameters.
 
@@ -369,7 +369,7 @@ Finite mixture representations of zero-and-_N_-inflated distributions for count-
 - Let be `\(\mathbf{u}_i \sim \operatorname{Normal}_d\left\lbrack \boldsymbol{0}, \boldsymbol{\Sigma}_U \right\rbrack\)` latent variables. Consider the
 parameterisation
 `$$\vartheta_{ij} = \frac{z_{ij}\alpha_{j} e^{u_{ij}}}{\sum_{k=1}^dz_{ik}\alpha_{k} e^{u_{ik}}},$$`
-where `\(\alpha_j &gt; 0\)` is a category-specific concentration parameter. 
+where `\(\alpha_j &gt; 0\)` is a category-specific concentration parameter.
 
 - The population-level count probabilities are `\(\theta_{j}=\alpha_j/\sum_{k=1}^d \alpha_k\)`.
 
@@ -446,7 +446,7 @@ class: middle, inverse
 
 .font90[
 
-- Bayesian additive regression trees (BART) is a **nonparametric prior** that represents 
+- Bayesian additive regression trees (BART) is a **nonparametric prior** that represents
 an unknown function `\(f(\mathbf{x}_i)\)` of interest as a sum of decision trees &lt;a name=cite-Chipman2010&gt;&lt;/a&gt;([Chipman et al., 2010](#bib-Chipman2010)):
 `$$f(\mathbf{x}_i) = \sum_{h=1}^{m}g\left(\mathbf{x}_i, \mathcal{T}_h, \mathcal{M}_h\right),$$`
 where `\(g(\mathbf{x}_i, \mathcal{T}_h, \mathcal{M}_h)\)` denotes a binary decision
@@ -489,10 +489,10 @@ where `\(\pi_\mu\)` is chosen so that it is conditionally conjugate.
 
 --
 
-- The log-linear BART prior of &lt;a name=cite-Murray2021&gt;&lt;/a&gt;[Murray (2021)](#bib-Murray2021) reparameterises the terminal node parameters via `\(\lambda_{ht} = e^{\mu_{ht}}\)`, where `\(\lambda_{ht}&gt;0\)`, such that 
+- The log-linear BART prior of &lt;a name=cite-Murray2021&gt;&lt;/a&gt;[Murray (2021)](#bib-Murray2021) reparameterises the terminal node parameters via `\(\lambda_{ht} = e^{\mu_{ht}}\)`, where `\(\lambda_{ht}&gt;0\)`, such that
 `\(\Lambda_h = \{\lambda_{ht}\colon t \in \mathcal{L}_h\}\)`. Then,
-`$$\log\left\lbrack f(\mathbf{x}_i) \right\rbrack = \sum_{h=1}^{m}\log\left\lbrack g\left(\mathbf{x}_i; \mathcal{T}_h, \Lambda_h\right)\right\rbrack 
-= \sum_{h=1}^{m}\log(\lambda_{ht})1(\mathbf{x}_i \in \mathcal{A}_{ht}), \quad t \in 
+`$$\log\left\lbrack f(\mathbf{x}_i) \right\rbrack = \sum_{h=1}^{m}\log\left\lbrack g\left(\mathbf{x}_i; \mathcal{T}_h, \Lambda_h\right)\right\rbrack
+= \sum_{h=1}^{m}\log(\lambda_{ht})1(\mathbf{x}_i \in \mathcal{A}_{ht}), \quad t \in
 \mathcal{L}_h,$$`
 
 
@@ -514,12 +514,12 @@ where `\(\pi_\mu\)` is chosen so that it is conditionally conjugate.
 - log-linear BART prior of [Murray (2021)](#bib-Murray2021) for the logistic transformation of `\(\boldsymbol{\theta}_i\)`:
 
 `$$\theta_{ij} = \frac{f_j^{(\mathrm{c})}(\mathbf{x}_i)}{\sum_{k=1}^d f_k^{(\mathrm{c})}(\mathbf{x}_i)},
-\quad 
+\quad
 \log f_j^{(\mathrm{c})}(\mathbf{x}_i) =
 \sum_{h=1}^{m_\theta}\log\left\lbrack g\left(\mathbf{x}_i; \mathcal{T}^{(\mathrm{c})}_{hj},
 \Lambda_{hj}\right)\right\rbrack,$$`
 where `\(\mathcal{T}^{(\mathrm{c})}_{hj}\)` denotes the `\(h\)`-th binary tree topology
-for the category `\(j\)` and `\(\Lambda_{hj} = \{\lambda_{htj}\colon \mathcal{L}^{(\mathrm{c})}_{hj} \}\)` 
+for the category `\(j\)` and `\(\Lambda_{hj} = \{\lambda_{htj}\colon \mathcal{L}^{(\mathrm{c})}_{hj} \}\)`
 are the corresponding set of terminal node parameters.
 ]
 
@@ -530,7 +530,7 @@ are the corresponding set of terminal node parameters.
 `$$\zeta_{ij} = \Phi\left( f^{(0)}_j(\mathbf{x}_i) \right) = \Phi\left\lbrack \sum_{h=1}^{m_\zeta}  g\left(\mathbf{x}_i; \mathcal{T}^{(0)}_{hj}, \mathcal{M}_{hj}\right) \right\rbrack,$$`
 where `\(\Phi(\cdot)\)` is standard normal cumulative distribution function,
 and  `\(\mathcal{T}^{(0)}_{hj}\)` and `\(\mathcal{M}_{hj} = \{\mu_{htj}\colon \mathcal{L}^{(0)}_{hj} \}\)`
-are the category-specific tree structure and terminal node parameters, respectively. 
+are the category-specific tree structure and terminal node parameters, respectively.
 ]
 
 ---
@@ -559,17 +559,17 @@ are the category-specific tree structure and terminal node parameters, respectiv
 
 
 
-Let `\(\boldsymbol{f}^{(\mathrm{c})} = (f_1^{(\mathrm{c})}, \ldots, f_d^{(\mathrm{c})})\)` and `\(\boldsymbol{f}^{(0)} = (f_1^{(0)}, \ldots, f_d^{(0)})\)`. 
+Let `\(\boldsymbol{f}^{(\mathrm{c})} = (f_1^{(\mathrm{c})}, \ldots, f_d^{(\mathrm{c})})\)` and `\(\boldsymbol{f}^{(0)} = (f_1^{(0)}, \ldots, f_d^{(0)})\)`.
 --
 
 Two steps of data augmentation:
 `$$\left(\phi_i \mid \mathbf{y}_i, \mathbf{z}_i, \mathbf{u}_i, \boldsymbol{f}^{(\mathrm{c})} \right) \overset{\operatorname{ind.}}{\sim}
 \operatorname{Gamma}\left\lbrack N_i, \sum_{j=1}^d z_{ij}f_j^{(\mathrm{c})}(\mathbf{x}_i)e^{u_{ij}}\right\rbrack,$$`
 and
-`$$(w_{ij} \mid z_{ij}, f_j^{(0)}) \sim 
-\begin{cases} 
-w_{ij} \sim \operatorname{TN}_{\lbrack -\infty, 0\rbrack}\lbrack f_j^{(0)}(\mathbf{x}_i), 1 \rbrack, &amp; \textrm{if} \: z_{ij} = 1,\\
-w_{ij} \sim \operatorname{TN}_{\lbrack 0, \infty\rbrack}\lbrack f_j^{(0)}(\mathbf{x}_i), 1 \rbrack, &amp; \textrm{if} \: z_{ij} = 0.
+`$$(w_{ij} \mid z_{ij}, f_j^{(0)}) \sim
+\begin{cases}
+\operatorname{TN}_{\lbrack -\infty, 0\rbrack}\lbrack f_j^{(0)}(\mathbf{x}_i), 1 \rbrack, &amp; \textrm{if} \: z_{ij} = 1,\\
+\operatorname{TN}_{\lbrack 0, \infty\rbrack}\lbrack f_j^{(0)}(\mathbf{x}_i), 1 \rbrack, &amp; \textrm{if} \: z_{ij} = 0.
 \end{cases}$$`
 --
 
@@ -583,7 +583,7 @@ Then, the augmented likelihood is
 \left\lbrack f_j^{(\mathrm{c})}(\mathbf{x}_i)\right\rbrack^{y_{ij}}
 e^{-\phi_i z_{ij}e^{u_{ij}}f_j^{(\mathrm{c})}(\mathbf{x}_i)}
 \right\},$$`
-where `\(\varphi(x; \mu, \sigma^2)\)` is the Gaussian probability density function 
+where `\(\varphi(x; \mu, \sigma^2)\)` is the Gaussian probability density function
 with mean `\(\mu\)` and variance `\(\sigma^2\)`.
 
 ---
@@ -632,7 +632,7 @@ has high prior probability of lying in `\((-3.0, 3.0)\)`.
 
 `$$\mathbf{v}_i = \boldsymbol{\Gamma} \boldsymbol{\eta}_i + \boldsymbol{\epsilon}_i,$$`
 where `\(\boldsymbol{\Gamma} = \left\lbrack \gamma_{hj}\right\rbrack_{h=1,\ldots,d-1}^{j=1,\ldots,k}\)` is a
-`\((d-1) \times k\)` factor loading matrix, 
+`\((d-1) \times k\)` factor loading matrix,
 `\(\boldsymbol{\eta}_i \sim \operatorname{Normal}_k\lbrack \mathbf{0}_k, \mathbf{I}_k\rbrack\)`, and
 `\(\boldsymbol{\epsilon}_i \sim \operatorname{Normal}_{d-1}\left\lbrack\mathbf{0}_{d-1}, \boldsymbol{\Psi}\right\rbrack\)`, with
 `\(\boldsymbol{\Psi}=\operatorname{diag}\left\{ \psi_1, \ldots, \psi_{d-1}\right\}\)`.
@@ -650,7 +650,7 @@ where `\(\boldsymbol{\Gamma} = \left\lbrack \gamma_{hj}\right\rbrack_{h=1,\ldots
 - The integrated likelihood of `\(\mathcal{T}^{(\mathrm{c})}_{hj}\)` is
 
 `$$\pi\left(\mathcal{T}^{(\mathrm{c})}_{hj} \mid \mathcal{T}^{(\mathrm{c})}_{(h)j}, \Lambda_{(h)j}, \mathbf{y},
-\mathbf{z}, \mathbf{u}, \boldsymbol{\phi}\right) 
+\mathbf{z}, \mathbf{u}, \boldsymbol{\phi}\right)
 \propto
 \pi_{\mathcal{T}}\left(\mathcal{T}^{(\mathrm{c})}_{hj}\right)
 \prod_{t \in \mathcal{L}^{(\mathrm{c})}_{hj}}
@@ -660,7 +660,7 @@ where `\(\boldsymbol{\Gamma} = \left\lbrack \gamma_{hj}\right\rbrack_{h=1,\ldots
 - The posterior distribution of `\({\Lambda_{hj}}\)` is
 
 `$$\left(
-\lambda_{thj} \mid 
+\lambda_{thj} \mid
 \mathcal{T}^{(\mathrm{c})}_{hj},  \mathcal{T}^{(\mathrm{c})}_{(h)j}, \Lambda_{(h)j}, \mathbf{y}, \mathbf{z}, \boldsymbol{\phi}
 \right)
 \overset{\operatorname{ind.}}{\sim}\operatorname{Gamma}\left\lbrack r^{(\mathrm{c})}_{htj} + c_0, s^{(\mathrm{c})}_{htj} + d_0\right\rbrack,
@@ -676,16 +676,16 @@ and `\(s^{(\mathrm{c})}_{htj}=\sum_{i\colon\mathbf{x}_i \in \mathcal{A}^{(\mathr
 - The integrated likelihood of `\(\mathcal{T}^{(0)}_{hj}\)` is
 
 `$$\pi\left(\mathcal{T}^{(0)}_{hj} \mid \mathbf{r}_{(h)j}\right)
-\propto 
+\propto
 \pi_{\mathcal{T}}\left(\mathcal{T}^{(0)}_{h}\right)
 \prod_{t \in \mathcal{L}^{(0)}_{hj}}
 \left(\dfrac{1}{n_{htj}\sigma_\mu^2 + 1}\right)^{1/2}\!
 \exp\left\lbrack \dfrac{1}{2} \left(  \dfrac{\sigma^2_\mu\left(s^{(0)}_{htj}\right)^2}{2(n_{htj}\sigma^2_\mu + 1)} \right)\right\rbrack.$$`
 
 - The posterior distribution of `\({\mathcal{M}_{hj}}\)` is
-`$$\left(\mu_{htj} \mid \mathcal{T}^{(0)}_{hj}, \mathbf{r}_{(h)j} \right) \overset{\operatorname{ind.}}{\sim} \operatorname{Normal}\left\lbrack 
+`$$\left(\mu_{htj} \mid \mathcal{T}^{(0)}_{hj}, \mathbf{r}_{(h)j} \right) \overset{\operatorname{ind.}}{\sim} \operatorname{Normal}\left\lbrack
 \dfrac{s^{(0)}_{htj}}{n_{htj} + \sigma^2_\mu}, 1 / (n_{htj} + 1 / \sigma_\mu^2)\right\rbrack, \quad t \in \mathcal{L}^{(0)}_{hj},$$`
-where 
+where
 `\(s^{(0)}_{htj} = \sum_{i\colon \mathbf{x}_i \in \mathcal{A}^{(0)}_{htj}}r_{(h)ij}\)`
 and `\(n_{htj}\)` is the total number of observations in the partition `\(\mathcal{A}^{(0)}_{htj}\)`.
 
@@ -775,8 +775,8 @@ class: middle, inverse
 ---
 # Data and goals
 
-- `\(n=7832\)` samples of `\(d=28\)` pollen species collected at different site locations in the 
-Northern Hemisphere, along with three climate covariates ([Parnell et al., 2015](#bib-Parnell2015)): 
+- `\(n=7832\)` samples of `\(d=28\)` pollen species collected at different site locations in the
+Northern Hemisphere, along with three climate covariates ([Parnell et al., 2015](#bib-Parnell2015)):
   - growing degree days above five `\(5^\circ\)` (*GDD5*): growing season warmth.
   - mean temperature of the coldest month (*MTCO*): harshness of the winter.
   - ratio of actual to potential evapotranspiration (*AET/PET*): available moisture.
@@ -786,7 +786,7 @@ Northern Hemisphere, along with three climate covariates ([Parnell et al., 2015]
 
 --
 
-- Specification of effective models for pollen-climate data presents two important statistical challenges ([Sweeney et al., 2018](#bib-Sweeney2018)): 
+- Specification of effective models for pollen-climate data presents two important statistical challenges ([Sweeney et al., 2018](#bib-Sweeney2018)):
   - Need for a proper count-compositional likelihood that accounts for excess zeros,
   - Flexible functional forms allowing for complex, potentially multimodal pollen-climate relationships.
 
@@ -811,9 +811,9 @@ Northern Hemisphere, along with three climate covariates ([Parnell et al., 2015]
 
 - Runtime:
   - ZANIM-BART: 2.47 h  
-  - ZANIM-LN-BART: 2.83 h
+  - ZANIM-LN-BART: 3.23 h
   - MLN-BART: 2.27 h  
-  - ML-BART: 1.76 h  
+  - ML-BART: 2.16 h  
   - DM-reg: 26.6 min  
   - ZANIDM-reg: 33.2 min
 
@@ -827,7 +827,7 @@ Northern Hemisphere, along with three climate covariates ([Parnell et al., 2015]
 
 - Compare:
 $$
-d(\mathbf{Y}^{\operatorname{out}}) \quad \text{vs} \quad 
+d(\mathbf{Y}^{\operatorname{out}}) \quad \text{vs} \quad
 p(d(\mathbf{Y}^{\operatorname{rep}}) \mid \mathbf{Y}^{\operatorname{in}})
 $$
 
@@ -835,7 +835,7 @@ $$
   - MDI  
   - Compositional entropy  
   - Proportion of zeros  
-  - Multivariate ZI index 
+  - Multivariate ZI index
 
 ---
 # HPCs
@@ -873,8 +873,8 @@ $$
 
   - Provided probabilistic characterisations for structural zeros in count-compositional data ([Menezes et al., 2025](#bib-Menezes2025)).
 
-  - ZANIM-BART and ZANIM-LN-BART models simultaneously address key challenges in 
-count-compositional data: zero-inflation, overdispersion, more complex dependencies, cross-sample heterogeneity, and 
+  - ZANIM-BART and ZANIM-LN-BART models simultaneously address key challenges in
+count-compositional data: zero-inflation, overdispersion, more complex dependencies, cross-sample heterogeneity, and
 flexible covariate effects.
 
   &lt;!-- - Developed MCMC algorithm for the ZANIM-BART and ZANIM-LN-BART models combining --&gt;
@@ -883,10 +883,10 @@ flexible covariate effects.
   &lt;!-- - Performed extensive simulations to evaluate the proposed models against competing methods. --&gt;
 
   &lt;!-- - Illustrated the usefulness of our models in the analysis of modern pollen-climate data. --&gt;
-  
+
   - An additional application to human gut microbiome data again confirmed the empirical superiority of our proposed models, particularly ZANIM-LN-BART.
-  
-  - `C++` implementations and code to reproduce the analyses are available in our `R` package `zanicc` from 
+
+  - `C++` implementations and code to reproduce the analyses are available in our `R` package `zanicc` from
 &lt;a href="http://github.com/AndrMenezes/zanicc"&gt;&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt; AndrMenezes/zanicc&lt;/a&gt;.
 ]
 
@@ -897,7 +897,7 @@ flexible covariate effects.
 **Future work**
   - Use our proposed models for the inverse posterior problem [Parnell et al. (2015)](#bib-Parnell2015):
     - Given new pollen counts `\(\mathbf{Y}_i^\ast\)`, what is the climate `\(\mathbf{x}^{\ast}\)` associated with them, i.e., `\(p(\mathbf{x}^{\ast} \mid \mathbf{Y}_i^\ast, \mathbf{Y}, \mathbf{x})\)`?
-  
+
   - Relax the independence across `\(\mathbf{z}_i\)` using the probit seemingly unrelated BART (probit-suBART) prior of &lt;a name=cite-Esser2025&gt;&lt;/a&gt;[Esser et al. (2025)](#bib-Esser2025).
 ]
 
@@ -1075,7 +1075,6 @@ class: middle, inverse
 
 &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
 ]
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
